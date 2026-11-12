@@ -6,7 +6,7 @@ using YStreamUtils.SDK.Plugin;
 
 [assembly: PluginManifest(
     "AI-Plugin", 
-    "v1.0.0", 
+    "v1.0.2", 
     "The official YStreamUtils AI Chat Integration",
     "YStreamUtils",
     "AIPlugin",
