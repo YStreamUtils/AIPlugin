@@ -6,7 +6,7 @@ using YStreamUtils.SDK.Plugin;
 
 [assembly: PluginManifest(
     "AI-Plugin", 
-    "v1.0.2", 
+    "v1.0.4", 
     "The official YStreamUtils AI Chat Integration",
     "YStreamUtils",
     "AIPlugin",
@@ -27,8 +27,6 @@ public class AiPlugin : PluginBase<AiPluginSettings>
 {
     private IChatClient? _client;
     private ChatOptions _options = new();
-    
-    public AiPlugin() { }
 
     public override Task InitializeAsync()
     {
@@ -53,12 +51,21 @@ public class AiPlugin : PluginBase<AiPluginSettings>
         };
     }
     
-    public async Task<string> AskAsync(string prompt, CancellationToken ct = default)
+    public async Task<string> AskAsync(string prompt, string? systemPrompt, CancellationToken ct = default)
     {
         if (_client is null)
             throw new InvalidOperationException("Plugin not initialized.");
+        
+        var options = _options;
+        if (systemPrompt is not null)
+        {
+            options = new ChatOptions
+            {
+                Instructions = systemPrompt
+            };
+        }
 
-        var response = await _client.GetResponseAsync(prompt, _options, cancellationToken: ct);
+        var response = await _client.GetResponseAsync(prompt, options, cancellationToken: ct);
         return response.Text;
     }
 
