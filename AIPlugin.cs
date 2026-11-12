@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Logging;
 using OllamaSharp;
 using YStreamUtils.SDK.Plugin;
 
@@ -26,6 +27,8 @@ public class AiPlugin : PluginBase<AiPluginSettings>
 {
     private IChatClient? _client;
     private ChatOptions _options = new();
+    
+    public AiPlugin() { }
 
     public override Task InitializeAsync()
     {
